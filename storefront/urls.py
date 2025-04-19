@@ -15,13 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from debug_toolbar.toolbar import debug_toolbar_urls
+from django.urls import path
+from django.shortcuts import redirect
 
 admin.site.site_header = 'Storefront Admin'
 admin.site.index_title = 'Admin'
 
+
+def redirect_to_login(request):
+    return redirect('admin:login')
+
+
 urlpatterns = [
+    path('', redirect_to_login, name='root'),
     path("admin/", admin.site.urls),
-    path("playground/", include('playground.urls'))
-] + debug_toolbar_urls()
+]
